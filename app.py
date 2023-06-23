@@ -1,12 +1,13 @@
 import streamlit as st
+import datetime
 import os
 
 from azure.ai.translation.text import TextTranslationClient, TranslatorCredential
 from azure.ai.translation.text.models import InputTextItem
 from azure.core.exceptions import HttpResponseError
 
-key = os.environ["KEY"] 
-endpoint = "https://api.cognitive.microsofttranslator.com/"
+key = os.environ["API_KEY"] 
+endpoint = os.environ["ENDPOINT"]
 region = "eastus"
 
 credential = TranslatorCredential(key, region)
@@ -80,6 +81,13 @@ input_option = st.selectbox(
     'Input language?',
     #([value['name'] for value in response.translation.values()]))
     input_option_autodetect)
+
+tstart = datetime.datetime.now()
+
+for value in response.translation.values():
+    print(value["name"])
+tend = datetime.datetime.now()
+print(tend-tstart)
 
 output_option = st.selectbox(
     'Output language?',
